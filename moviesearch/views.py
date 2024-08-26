@@ -1,16 +1,17 @@
 from django.shortcuts import render
 
-# Create your views here.
 import requests
 from django.shortcuts import render
+from .forms import MovieSearchForm
+from django.conf import settings
 
-API_KEY = '50cffaaf30c01354972ef7e5f8870e81'
-
-def search_movies(request):
-    query = request.GET.get('query', '')
-    movies = []
-    if query:
-        response = requests.get(f'https://api.themoviedb.org/3/search/movie?api_key={API_KEY}&query={query}')
-        data = response.json()
-        movies = data.get('results', [])
-    return render(request, 'moviesearch/search.html', {'movies': movies})
+def search_movie(request):
+    form = MovieSearchForm(request.POST or None)
+    movie_data = None
+    if request.method == 'POST' and form.is_valid():
+        title = form.cleaned_data['title']
+        api_key = settings.TMDB_API_KEY
+        url = f'https://api.themoviedb.org/3/search/movie?api_key={api_key}&query={title}'
+        response = requests.get(url)
+        movie_data = response.json()
+    return render(request, 'moviesearch/search.html', {'form': form, 'movie_data': movie_data})

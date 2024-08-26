@@ -1,20 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Movie Search</title>
-</head>
-<body>
-    <h1>Movie Search</h1>
-    <form method="get">
-        <input type="text" name="query" placeholder="Search for movies" />
-        <button type="submit">Search</button>
-    </form>
+<h1>Movie Search</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Search</button>
+</form>
+
+{% if movie_data %}
+    <h2>Results:</h2>
     <ul>
-        {% for movie in movies %}
-            <li>{{ movie.title }} ({{ movie.release_date }})</li>
-        {% empty %}
-            <li>No movies found.</li>
+        {% for movie in movie_data.results %}
+            <li>
+                <strong>{{ movie.title }}</strong> ({{ movie.release_date }})<br>
+                {{ movie.overview }}<br>
+                <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }} poster">
+            </li>
         {% endfor %}
     </ul>
-</body>
-</html>
+{% endif %}

@@ -15,8 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from moviesearch import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('moviesearch.urls')),  # Lisab moviesearch rakenduse URL-id
+    path('', views.search_movie, name='home'),  # Suunab juure URL-i filmide otsingu lehele
+    path('search/', include('moviesearch.urls')),  # Kui soovite kasutada 'search/' URL-i, kui see on eraldi
 ]
+
+
