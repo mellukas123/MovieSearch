@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ movie.title }}</title>
+    {% load static %}
+</head>
+<body>
+    <h1>{{ movie.title }} ({{ movie.release_date|slice:":4" }})</h1>
+    <!-- Kontrolli, kas poster_path on olemas -->
+    {% if movie.poster_path %}
+        <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }} Poster">
+    {% else %}
+        <p>No poster available</p>
+    {% endif %}
+
+    <p><strong>Overview:</strong> {{ movie.overview }}</p>
+
+    <!-- Kontrolli ja kuva žanrid -->
+    <p><strong>Genres:</strong>
+        {% if movie.genres %}
+            <ul>
+                {% for genre in movie.genres %}
+                    <li>{{ genre.name }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No genres available</p>
+        {% endif %}
+    </p>
+
+    <!-- Kontrolli ja kuva näitlejad -->
+    <p><strong>Cast:</strong>
+        {% if movie.credits.cast %}
+            <ul>
+                {% for actor in movie.credits.cast %}
+                    <li>{{ actor.name }} as {{ actor.character }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No cast information available</p>
+        {% endif %}
+    </p>
+
+    <!-- Bookmark button -->
+    <form method="post">
+        {% csrf_token %}
+        {% if is_bookmarked %}
+            <button type="submit" name="remove_bookmark">Remove Bookmark</button>
+        {% else %}
+            <button type="submit" name="bookmark">Bookmark</button>
+        {% endif %}
+    </form>
+
+    <!-- Link back to search results -->
+    <a href="{% url 'search_movies' %}">Back to search results</a>
+</body>
+</html>

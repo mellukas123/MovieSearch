@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+
+    <!-- Otsingu vorm -->
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Näita otsingu tulemusi -->
+    {% if movies %}
+        <h2>Results</h2>
+        <ul>
+            {% for movie in movies %}
+                <li>
+                    <a href="{% url 'movie_detail' movie.id %}">
+                        {{ movie.title }} ({{ movie.release_date|slice:":4" }})
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% elif form.is_valid %}
+        <p>No results found.</p>
+    {% endif %}
+</body>
+</html>

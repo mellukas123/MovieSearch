@@ -1,19 +1,28 @@
-<h1>Movie Search</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Search</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Movie Search</title>
+</head>
+<body>
+    <h1>Search for a Movie</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Search</button>
+    </form>
 
-{% if movie_data %}
     <h2>Results:</h2>
     <ul>
-        {% for movie in movie_data.results %}
+        {% for movie in movies %}
             <li>
-                <strong>{{ movie.title }}</strong> ({{ movie.release_date }})<br>
-                {{ movie.overview }}<br>
-                <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }} poster">
+                <a href="{% url 'movie_detail' movie.id %}">{{ movie.title }} ({{ movie.release_date|slice:":4" }})</a>
             </li>
+        {% empty %}
+            <li>No movies found.</li>
         {% endfor %}
     </ul>
-{% endif %}
+
+</body>
+</html>

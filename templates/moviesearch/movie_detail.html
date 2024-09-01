@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>{{ movie.title }}</title>
+</head>
+<body>
+    <h1>{{ movie.title }} ({{ movie.release_date|slice:":4" }})</h1>
+    <!-- Kontrolli, kas poster_path on olemas -->
+    {% if movie.poster_path %}
+        <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }} Poster">
+    {% else %}
+        <p>No poster available</p>
+    {% endif %}
+
+    <p><strong>Overview:</strong> {{ movie.overview }}</p>
+
+    <!-- Kontrolli ja kuva žanrid -->
+    <p><strong>Genres:</strong>
+        {% if movie.genres %}
+            <ul>
+                {% for genre in movie.genres %}
+                    <li>{{ genre.name }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No genres available</p>
+        {% endif %}
+    </p>
+
+    <!-- Kontrolli ja kuva näitlejad -->
+    <p><strong>Cast:</strong>
+        {% if movie.credits and movie.credits.cast %}
+            <ul>
+                {% for cast_member in movie.credits.cast|slice:":5" %}
+                    <li>{{ cast_member.name }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No cast information available</p>
+        {% endif %}
+    </p>
+
+    <a href="{% url 'search_movies' %}">Back to Search</a>
+</body>
+</html>

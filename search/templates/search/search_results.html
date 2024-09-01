@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% load static %}
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+
+    <form method="get" action="{% url 'search' %}">
+        <input type="text" name="q" value="{{ query }}" placeholder="Search...">
+        <button type="submit">Search</button>
+    </form>
+
+    <h1>Search Results for "{{ query }}"</h1>
+<ul>
+    {% if results %}
+        {% for movie in results %}
+            <li>{{ movie.title }} - {{ movie.description }}</li>
+        {% endfor %}
+    {% else %}
+        <li>No results found.</li>
+    {% endif %}
+</ul>
+</body>
+</html>
