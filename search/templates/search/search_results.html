@@ -40,7 +40,7 @@
         {% if results %}
             {% for movie in results %}
                 <div class="card movie-card" onclick="toggleInfo(this)">
-                    <img src="{{ movie.poster_url }}" class="movie-poster" alt="{{ movie.title }}">
+                    <img src="https://image.tmdb.org/t/p/original{{ movie.poster_path}}" class="movie-poster" alt="{{ movie.title }}">
                     <div class="card-body movie-info">
                         <h5 class="card-title">{{ movie.title }}</h5>
                         <p class="card-text">{{ movie.overview }}</p>

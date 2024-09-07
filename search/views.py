@@ -28,4 +28,3 @@ def search_view(request):
         results =  {"results" : Movie.objects.none()}
     results
     return render(request, 'search/search_results.html', {'results': results['results'], 'query': query})
-

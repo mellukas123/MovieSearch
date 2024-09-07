@@ -11,7 +11,11 @@
 
 from django.db import models
 
+
 class Movie(models.Model):
-    title = models.CharField(max_length=255)
-    description = models.TextField()  # This line should be present
-    release_date = models.DateField()
+    title = models.CharField(max_length=200)
+    poster_path = models.CharField(max_length=255)  # Assuming this is a URL or path
+    overview = models.TextField()
+
+    def __str__(self):
+        return self.title

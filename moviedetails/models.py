@@ -6,7 +6,7 @@ class Movie(models.Model):
     release_date = models.DateField()
     poster_path = models.CharField(max_length=255, blank=True, null=True)
     overview = models.TextField(blank=True, null=True)
-    genres = models.JSONField(blank=True, null=True)  # Assuming genres are stored in JSON format
+    genres = models.JSONField(blank=True, null=True)
     poster_url = models.URLField(blank=True, null=True)
 
     def __str__(self):
